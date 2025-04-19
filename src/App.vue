@@ -8,7 +8,7 @@
   import TaskInput from './components/TaskInput.vue';
   import TaskHeader from './components/TaskHeader.vue';
   import { useLocalTasks } from './components/useLocalTasks';
-  
+
   const tasks=useLocalTasks();//存放所有任务
   const filterStatus=ref('all');//过滤器状态，默认全部
 
@@ -39,21 +39,20 @@
   //子组件触发sendAddTask事件后，执行addTask事件
   //添加newTask到任务列表tasks
   const addTask=(newTask)=>{
-    if(newTask.trim()){//传进来的newTask是个字符串
-      console.log(tasks.value);
-      console.log(typeof tasks.value);      
-      //如果新任务不为空白，把新任务添加到任务列表
-      tasks.value.push({
-        id:Date.now(),//时间戳，生成唯一id
-        text:newTask,
-        done:false,//一开始是没完成的
-        isEdit:false//一开始未编辑
-      })
-      console.log(allLength.value);
-      console.log(doneLength.value);
-      
-      
-    }
+    //传进来的newTask是个字符串
+    console.log(typeof newTask);
+    
+    console.log(tasks.value);
+    console.log(typeof tasks.value);      
+    //把新任务添加到任务列表
+    tasks.value.push({
+      id:Date.now(),//时间戳，生成唯一id
+      text:newTask,
+      done:false,//一开始是没完成的
+      isEdit:false//一开始未编辑
+    })
+    console.log(allLength.value);
+    console.log(doneLength.value);
   }
 
   //子组件触发sendRemoveTask事件后，执行removeTask事件
