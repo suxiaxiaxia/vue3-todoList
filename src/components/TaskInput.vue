@@ -10,21 +10,23 @@
 <script setup>
   import { ref } from 'vue';
   import { ElMessage } from 'element-plus';
+  import { useTodoStore } from '@/stores/todo';
 
+  const todoStore=useTodoStore();
   const newTask=ref('');//新任务
  
-  const emits=defineEmits([
-    'sendAddTask'
-  ])
-  
   //输入框校验
   const isValid=()=>{
     if(!newTask.value.trim()){
       ElMessage.error('待办事项不能为空~');
       return;
     }else{
-      emits('sendAddTask',newTask.value);
+      todoStore.addTask(newTask.value);//传字符串
       newTask.value='';
+
+      console.log(todoStore.allLength);
+      console.log(todoStore.doneLength);      
+      
     }
   }
   
@@ -41,7 +43,6 @@
       <el-input type="text" placeholder="输入待办事项" v-model.lazy="newTask"></el-input>
     </el-form-item>
     <el-form-item>
-      <!-- 点击添加按钮，把新任务传递给父组件 -->
       <el-button @click="isValid">添加</el-button>
     </el-form-item>
     

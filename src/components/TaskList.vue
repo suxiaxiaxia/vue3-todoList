@@ -2,37 +2,14 @@
 <!-- 渲染任务列表 -->
 
 <script setup>
+  import { useTodoStore } from '@/stores/todo';
   import TaskItem from './TaskItem.vue';
+  import { computed } from 'vue';
   
-  //props是只读操作
-  //不推荐子组件直接删数据再传回父，破坏数据流动方向、可维护性差
-  const {tasks}=defineProps({
-    tasks:Array
-  })
-
-  const emits=defineEmits([
-    'sendRemove',
-    'sendDone',
-    'sendIsEditTrue',
-    'sendIsEditFalse'
-  ])
-
-  const sendRemove=(id)=>{
-    emits('sendRemove',id)
-  }
-
-  const sendDone=(task)=>{
-    emits('sendDone',task)
-  }
-
-  const sendIsEditTrue=(task)=>{
-    emits('sendIsEditTrue',task)
-  }
-
-  const sendIsEditFalse=(task)=>{
-    emits('sendIsEditFalse',task)
-  }
-  
+  const todoStore=useTodoStore();
+  const tasks=computed(()=>todoStore.filteredTasks);
+  console.log(tasks.value);
+   
 </script>
 
 <template>
@@ -41,11 +18,7 @@
   <TaskItem 
   v-for="task in tasks" 
   :key="task.id"
-  :task="task"
-  @send-remove-task="sendRemove"
-  @send-done-change="sendDone"
-  @send-edit-istrue="sendIsEditTrue"
-  @send-edit-isfalse="sendIsEditFalse"/>
+  :taskId="task.id"/>
   
 </template>
 

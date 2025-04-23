@@ -1,6 +1,8 @@
 <!-- TaskHeader.vue -->
 <!-- 功能区，可筛选任务、清除已完成任务、统计任务数量 -->
 
+<!-- ----------------组件通信版 --------------------------- -->
+
 <!-- 筛选功能的逻辑，在App.vue中创建两个ref数组tasksHaveDone和tasksWillDo，
 通过tasks.value.done把已完成和未完成放进这两个数组里，
 再设置变量用在TaskList.vue里，v-if="A"时把tasks里的单个任务传给TaskItem，
@@ -33,50 +35,36 @@ methods适合触发行为（比如点击按钮后做事）-->
 会触发computed的set，改变全部tasks.done；
 tasks.done状态有变时，触发get，判断要不要勾选复选框-->
 
+<!-- ----------------组件通信版 --------------------------- -->
+
 <script setup>
   import { computed } from 'vue'
+  import { useTodoStore } from '@/stores/todo'
 
-  const {tasks,allLength,doneLength,isAllChecked}=defineProps({
-    tasks:Array,
-    allLength:Number,
-    doneLength:Number,
-    isAllChecked:Boolean
-  })
-
-  const emits=defineEmits([
-    'sendFilterTasks',
-    'sendRemoveDoneTasks',
-    'update:isAllChecked'//实现v-model双向绑定
-  ])
-
-  const sendFilterTasks=(status)=>{
-    emits('sendFilterTasks',status)
-  }
-
-  const sendRemoveDoneTasks=()=>{
-    emits('sendRemoveDoneTasks')
-  }
-
-  const sendCheckedChange=(e)=>{
-    console.log(e.target.checked);
-    
-    emits('update:isAllChecked',e.target.checked)
-  }
-
+  const todoStore=useTodoStore();
+  //const tasks=computed(()=>todoStore.filteredTasks);
+  //虽然更麻烦但是更好维护，包一层computed比较清晰
+  const allLength=computed(()=>todoStore.allLength);
+  const doneLength=computed(()=>todoStore.doneLength);
  
 </script>
 
 <template>
   <div class="taskHeader">
-    <span @click="sendFilterTasks('all')">全部</span>
-    <span @click="sendFilterTasks('todo')">未完成</span>
-    <span @click="sendFilterTasks('done')">已完成</span>
+    <span @click="todoStore.filterTasks('all')">全部</span>
+    <span @click="todoStore.filterTasks('todo')">未完成</span>
+    <span @click="todoStore.filterTasks('done')">已完成</span>
   </div>
+
+  <!-- 模版直接这样使用也可以
+  <p>共{{ todoStore.allLength }}项，已完成{{ todoStore.doneLength }}项</p> -->
   <p>共{{ allLength }}项，已完成{{ doneLength }}项</p>
-  <button @click="sendRemoveDoneTasks">清除已完成任务</button>
+
+  <button @click="todoStore.removeDoneTasks();">清除已完成任务</button>
+
   <input type="checkbox" 
-  :checked="isAllChecked"
-  @change="sendCheckedChange">一键标记
+  v-model="todoStore.isAllChecked">一键标记
+
 </template>
 
 <style scoped>
