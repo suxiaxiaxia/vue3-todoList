@@ -38,19 +38,36 @@
   按钮本身不需要校验，但通常也把它放在 el-form-item 里，
   主要是为了样式对齐和表单结构清晰。 -->
 
-  <el-form>
+  <el-form class="form">
     <el-form-item>
-      <el-input type="text" placeholder="输入待办事项" v-model.lazy="newTask"></el-input>
+      <el-input 
+      type="text" 
+      placeholder="输入待办事项" 
+      v-model.lazy="newTask"
+      ></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button @click="isValid">添加</el-button>
-    </el-form-item>
-    
+      <el-button 
+      type="info" round
+      @click="isValid">添加</el-button>
+    </el-form-item>   
   </el-form>
   
 
 </template>
 
 <style scoped>
-
+  .form{
+    display: flex;
+    gap: 20px;
+  }
+  @media (max-width: 480px){
+    .form{
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+  
 </style>
+
+

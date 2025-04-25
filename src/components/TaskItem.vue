@@ -86,5 +86,37 @@ props是浅响应,当父组件修改task对象的某个属性时，子组件确�
 <style scoped>
   .taskItem{
     display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  button{
+    width: 60px;
+    height: 30px;
+    border: 1px solid rgba(0, 0, 0, 0.447);
+    background-color: rgba(142, 142, 142, 0.18);
+    border-radius: 5px;
+    box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.447);
+    cursor: pointer;
+  }
+  button:hover{
+    background-color: rgb(222, 218, 218);
+  }
+  button:active{
+    outline: 1px solid rgb(173, 173, 173);
+  }
+  p{
+    width: 200px;
+  }
+
+  @media (max-width: 330px){
+    .taskItem{
+      flex-direction: column;
+      gap: 0;
+    }
+    button{
+      font-size: 13px;
+      width: 40px;
+      height: 20px;
+    }
   }
 </style>

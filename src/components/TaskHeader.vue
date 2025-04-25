@@ -50,37 +50,133 @@ tasks.done状态有变时，触发get，判断要不要勾选复选框-->
 </script>
 
 <template>
-  <div class="taskHeader">
-    <span @click="todoStore.filterTasks('all')">全部</span>
-    <span @click="todoStore.filterTasks('todo')">未完成</span>
-    <span @click="todoStore.filterTasks('done')">已完成</span>
+
+  
+
+
+  <div class="header">
+    <!-- :class="{ className: 条件 }"
+    如果条件为 true，就添加 className 这个类名到该元素上。-->
+    <span 
+    @click="todoStore.filterTasks('all')"
+    :class="{ active: todoStore.filterStatus === 'all' }"
+    >全部</span>
+    <span 
+    @click="todoStore.filterTasks('todo')"
+    :class="{ active: todoStore.filterStatus === 'todo' }"
+    >未完成</span>
+    <span 
+    @click="todoStore.filterTasks('done')"
+    :class="{ active: todoStore.filterStatus === 'done' }"
+    >已完成</span>
   </div>
 
   <!-- 模版直接这样使用也可以
   <p>共{{ todoStore.allLength }}项，已完成{{ todoStore.doneLength }}项</p> -->
   <p>共{{ allLength }}项，已完成{{ doneLength }}项</p>
 
-  <button @click="todoStore.removeDoneTasks();">清除已完成任务</button>
+  <div class="allchecked">
+    <input type="checkbox" 
+    v-model="todoStore.isAllChecked">
+    <span>一键标记</span>
+  </div>
 
-  <input type="checkbox" 
-  v-model="todoStore.isAllChecked">一键标记
+
+  <button 
+  class="clearAll"
+  @click="todoStore.removeDoneTasks();"
+  >清除所有已完成任务</button>
 
 </template>
 
 <style scoped>
-  .taskHeader{
-    border: 1px solid grey;
+  
+  p{
+    position: absolute;
+    right: 0px;
+    top: 80px;
+    margin: 5px;
+    width: 150px;
+    box-sizing: border-box;
+    padding-left: 10px;
+    box-shadow: 2px 1px #e4e4e4;
+  }
+  .header{
+    position: relative;
+    border: 1px solid c3c2c2;
+    background-color: #c3c2c2;
+    box-shadow: 2px 3px 2px gainsboro;
+    border-radius: 5px;
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 10px;
+    gap: 50px;
+    margin-bottom: 10px;
+    margin-top: 35px;
   }
-  span{
-    flex: 1;
+  .header span{
+    /* flex: 1; */
+    width: 70px;
+    text-align: center;
     box-sizing: border-box;
-    padding: 10px;
+    padding: 5px;
     /* border: 1px solid black; */
-    margin-top: 10px;
-    color: #5290c9;
+    border-radius: 10px;
+    color: #000000;
   }
+  .header span:hover{
+    background-color: #4747478c;
+    color: white;
+    cursor: pointer;
+  }
+  .header span:active{
+    outline: solid rgb(101, 101, 101);
+  }
+  .header span.active {
+    background-color: #737373;
+    color: white;
+    font-weight: bold;
+    border: 1px solid #00000066;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+  button{
+    width: 200px;
+    height: 35px;
+    color: white;
+    position: absolute;
+    right: 10px;
+    top: 125px;
+    background-color: #acacac;
+    border-radius: 20px;
+    box-sizing: border-box;
+    box-shadow: 2px 3px 2px rgba(192, 190, 190, 0.338);
+  }
+  button:hover{
+    cursor: pointer;
+    background-color: #b0aeae;
+    box-shadow: 2px 3px 2px rgba(192, 190, 190, 0.747);
+  }
+
+  @media (max-width: 480px){
+    .header{
+      margin: 10px;
+      gap: 7px;
+    }
+    .clearAll{
+      font-size: 12px;
+      box-sizing: border-box;
+      padding: 3px;
+      border-radius: 10px;
+      width: 130px;
+      height: 25px;
+      top: 155px;
+    }
+    p{
+      font-size: 12px;
+      width: 130px;
+      top: 120px;
+    }
+    
+  }
+
 </style>
