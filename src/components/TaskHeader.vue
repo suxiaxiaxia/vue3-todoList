@@ -69,11 +69,18 @@ tasks.done状态有变时，触发get，判断要不要勾选复选框-->
 
 <style scoped>
   .taskHeader{
+    border: 1px solid grey;
     display: flex;
     flex-direction: row;
     justify-content: center;
+    gap: 10px;
   }
   span{
     flex: 1;
+    box-sizing: border-box;
+    padding: 10px;
+    /* border: 1px solid black; */
+    margin-top: 10px;
+    color: #5290c9;
   }
 </style>

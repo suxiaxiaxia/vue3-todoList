@@ -2,24 +2,12 @@
  除非需要this才用 function。
  而组合式API+setup是不会用到this的 -->
 
-<script setup>
-
-  import TaskList from './components/TaskList.vue';
-  import TaskInput from './components/TaskInput.vue';
-  import TaskHeader from './components/TaskHeader.vue';
- 
-</script>
-
-<template>
-  <TaskInput/>
-  <p>todoList</p>
-
-  <TaskHeader/>
-
-  <TaskList />
-
+ <template>
+  <div>
+    <nav>
+      <router-link to="/">首页</router-link> |
+      <router-link to="/todos">待办事项</router-link>
+    </nav>
+    <router-view /> <!-- 动态加载页面组件 -->
+  </div>
 </template>
-
-<style scoped>
-
-</style>
